@@ -1,6 +1,6 @@
 
 class Calorie_Tracker(object):
-    user = ''
+    
     def __init__(self, user):
         self.getCommand(user)
         
@@ -40,4 +40,5 @@ class Calorie_Tracker(object):
                )
             
 if __name__ == "__main__":
-    Calorie_Tracker("Cody")
+    user = input("Please enter your name: ").lower()
+    Calorie_Tracker(user)
