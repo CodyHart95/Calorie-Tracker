@@ -22,6 +22,8 @@ class Calorie_Tracker(object):
                 print("You have consumed " + str(current_user.todays_calories) + " calories today!")
             elif(command == "--w"):
                 print("Based on your current calorie intake you should weigh " + str(current_user.weight)+ " lbs.")
+            elif(command == "--r"):
+                self.removeCalories(current_user)
             elif(command == "--help"):
                 self.commandHelper()
             else:
@@ -31,12 +33,15 @@ class Calorie_Tracker(object):
     def addCalories(self,current_user):
         cals = input("Please enter the calories you have eaten since your last log in: ")
         current_user.updateCalories(int(cals))
-
+    def removeCalories(self,current_user):
+        cals = int(input("Please enter the calories you would like to remove: "))
+        current_user.updateCalories(cals - (cals*2))
     def commandHelper(self):
          print(50 * "-")
          print("--a: Opens a prompt to allow you to add calories to your total for today.\n"
                "--t: Shows your current calorie count for today.\n"
                "--w: Shows your current calculated weight based on your total calorie intake. This is only an estimation and may not reflect your actual weight\n"
+               "--r: Opens a prompt to allow you to remove calories from your total for today. \n"
                )
             
 if __name__ == "__main__":
