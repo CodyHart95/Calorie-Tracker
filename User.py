@@ -26,10 +26,11 @@ class User(object):
             self.createUserFile(self.name)
                         
     def createUserFile(self):
-        current_weight = 0
+        current_weight = input("Please enter your current weight in pounds as an integer. ")
         root = ET.Element('root')
         user_name = ET.SubElement('name')
         user_name.text = self.name
         user_weight = ET.SubElement('wieght')
-        user_weight.text = str(current_weight)
+        user_weight.text = current_weight
         calorie_counts = ET.SubElement('calorie_counts')
+        ET.write(os.path.join(getcwd(),('user_files/' + user + '.xml')))
