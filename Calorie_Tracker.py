@@ -1,7 +1,10 @@
 from User import User
-
+#The purpose of this class is to create an interface for the user to
+#interact with the program. In addition it allows for interaction with the User class.
 class Calorie_Tracker(object):
-    def __init__(self, user):       
+    
+    def __init__(self, user):
+        #create a new user object when ever a user attempts to log in.
         current_user = User(user)
         self.getCommand(current_user)
     
@@ -24,6 +27,7 @@ class Calorie_Tracker(object):
             else:
                 print("I dont recognize that command. Here is a list of my commands:\n")
                 self.commandHelper()
+    
     def addCalories(self,current_user):
         cals = input("Please enter the calories you have eaten since your last log in: ")
         current_user.updateCalories(int(cals))
@@ -32,7 +36,7 @@ class Calorie_Tracker(object):
          print(50 * "-")
          print("--a: Opens a prompt to allow you to add calories to your total for today.\n"
                "--t: Shows your current calorie count for today.\n"
-               "--w: Shows your current calculated weight based on your total calorie intake.\n"
+               "--w: Shows your current calculated weight based on your total calorie intake. This is only an estimation and may not reflect your actual weight\n"
                )
             
 if __name__ == "__main__":
