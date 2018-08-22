@@ -57,13 +57,13 @@ class User(object):
         
     def updateCalories(self,new_calories):
         self.todays_calories = self.todays_calories + new_calories
+        self.updateWeight()
         tree = ET.parse(self.path)
         root = tree.getroot()
-        calorie_counts = root.find('calorie_counts')
-        
+        calorie_counts = root.find('calorie_counts')        
         days = calorie_counts.findall(str('day'))
         current_calories = 0
-        if(days[len(days)-1.find('date').text != str(date.today())):
+        if(days[len(days)-1].find('date').text != str(date.today())):
             calorie_counts = root.find('calorie_counts')
             day = ET.SubElement(calorie_counts,'day')
             todays_date = ET.SubElement(day,'date')
@@ -73,6 +73,19 @@ class User(object):
         else:          
             current_calories = days[len(days)-1].find('todays_calories')
             current_calories.text = str(self.todays_calories)
+        new_tree = ElementTree(root)
+        new_tree.write(self.path)
+           
+    def updateWeight(self):
+        if (self.todays_calories < 2000):
+           self.weight = self.weight - (self.todays_calories * .002)
+        else:
+           self.weight = self.weight + (self.todays_calories * .002)
+
+        tree = ET.parse(self.path)
+        root = tree.getroot()
+        current_weight = root.find('weight')
+        current_weight = self.weight
         new_tree = ElementTree(root)
         new_tree.write(self.path)
         

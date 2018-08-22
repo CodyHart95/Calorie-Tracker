@@ -18,7 +18,7 @@ class Calorie_Tracker(object):
             elif(command == "--t"):
                 print("You have consumed " + str(current_user.todays_calories) + " calories today!")
             elif(command == "--w"):
-                print("Based on your current calorie intake you should weigh " + str(current_user.weight)+ "lbs.")
+                print("Based on your current calorie intake you should weigh " + str(current_user.weight)+ " lbs.")
             elif(command == "--help"):
                 self.commandHelper()
             else:
