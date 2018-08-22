@@ -8,7 +8,7 @@ class Calorie_Tracker(object):
     def getCommand(self, user):
         while True:
             print(50 * "-")
-            command = input("\nPlease enter a command: ".lower())
+            command = input("\nPlease enter a command: ").lower()
             print()
             if(command == "--a"):
                 self.addCalories()
@@ -16,10 +16,10 @@ class Calorie_Tracker(object):
                 self.displayTodaysCalories()
             elif(command == "--w"):
                 self.displayUsersCurrentWeight(user)
-            elif(command == "--h"):
+            elif(command == "--help"):
                 self.commandHelper()
             else:
-                print("I dont recognize that command. Here is a list of my commands/n")
+                print("I dont recognize that command. Here is a list of my commands:\n")
                 self.commandHelper()
     def addCalories(self):
         print("cal")
@@ -32,7 +32,12 @@ class Calorie_Tracker(object):
         print("weight")
     def updateUserInformation(self, user_name):
         p = 0
-        commandHelper(self):
-            print("help")
+    def commandHelper(self):
+         print(50 * "-")
+         print("--a: Opens a prompt to allow you to add calories to your total for today.\n"
+               "--t: Shows your current calorie count for today.\n"
+               "--w: Shows your current calculated weight based on your total calorie intake.\n"
+               )
+            
 if __name__ == "__main__":
     Calorie_Tracker("Cody")
