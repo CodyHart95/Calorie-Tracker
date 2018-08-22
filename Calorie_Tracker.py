@@ -1,12 +1,14 @@
-
+from User import User
 class Calorie_Tracker(object):
-    
+    user_name = ''
     def __init__(self, user):
-        self.getCommand(user)
+        self.user_name = user
+        self.getCommand()
         
     #provides an interface so that users may enter commands
-    def getCommand(self, user):
+    def getCommand(self):
         while True:
+            current_user = User(self.user_name)
             print(50 * "-")
             command = input("\nPlease enter a command: ").lower()
             print()
@@ -40,5 +42,6 @@ class Calorie_Tracker(object):
                )
             
 if __name__ == "__main__":
+    
     user = input("Please enter your name: ").lower()
     Calorie_Tracker(user)
