@@ -9,14 +9,14 @@ class Calorie_Tracker(object):
     
     #provides an interface so that users may enter commands
     def getCommand(self,current_user):
-        while True:            
+        while True:                
             print(50 * "-")
             command = input("\nPlease enter a command: ").lower()
             print()
             if(command == "--a"):
                 self.addCalories(current_user)
             elif(command == "--t"):
-                print("You have consumed " + current_user.todays_calories + " calories today!")
+                print("You have consumed " + str(current_user.todays_calories) + " calories today!")
             elif(command == "--w"):
                 print("Based on your current calorie intake you should weigh " + str(current_user.weight)+ "lbs.")
             elif(command == "--help"):
