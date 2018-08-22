@@ -36,7 +36,6 @@ class User(object):
                 print(50 * "-")
                 self.name = input("Please enter your name: ").lower()
                 self.path = os.path.join(getcwd(),('user_files/' + self.name + '.xml'))
-                print(self.name)
                 self.readUserFile()
                         
     def createUserFile(self):
@@ -63,10 +62,17 @@ class User(object):
         calorie_counts = root.find('calorie_counts')
         
         days = calorie_counts.findall(str('day'))
-        print(len(days))
-        current_calories = days[len(days)-1].find('todays_calories')
-    
-        current_calories.text = str(self.todays_calories)
+        current_calories = 0
+        if(days[len(days)-1.find('date').text != str(date.today())):
+            calorie_counts = root.find('calorie_counts')
+            day = ET.SubElement(calorie_counts,'day')
+            todays_date = ET.SubElement(day,'date')
+            todays_date.text = str(date.today())
+            todays_calories = ET.SubElement(day,'todays_calories')
+            todays_calories.text = str(self.todays_calories)
+        else:          
+            current_calories = days[len(days)-1].find('todays_calories')
+            current_calories.text = str(self.todays_calories)
         new_tree = ElementTree(root)
         new_tree.write(self.path)
         
