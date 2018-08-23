@@ -75,7 +75,7 @@ class User(object):
         days = calorie_counts.findall(str('day'))
         current_calories = days[len(days)-1].find('todays_calories')
         if(days[len(days)-1].find('date').text != str(date.today())):
-            updateWeight(self,current_calories)
+            self.updateWeight(int(current_calories.text))
             calorie_counts = root.find('calorie_counts')
             day = ET.SubElement(calorie_counts,'day')
             todays_date = ET.SubElement(day,'date')
