@@ -67,14 +67,14 @@ class User(object):
 
     #This function serves 2 purposes. I calculates our new calorie total for the day and
     #saves that new total to the users xml file. It also calls updateWeight so that a new weight can be calculated.
-    def updateCalories(self,new_calories):
-        self.todays_calories = self.todays_calories + new_calories
+    def updateCalories(self,new_calories):      
         tree = ET.parse(self.path)
         root = tree.getroot()
         calorie_counts = root.find('calorie_counts')        
         days = calorie_counts.findall(str('day'))
         current_calories = days[len(days)-1].find('todays_calories')
         if(days[len(days)-1].find('date').text != str(date.today())):
+            self.todays_calories = new_calories
             self.updateWeight(int(current_calories.text))
             calorie_counts = root.find('calorie_counts')
             day = ET.SubElement(calorie_counts,'day')
@@ -82,8 +82,8 @@ class User(object):
             todays_date.text = str(date.today())
             todays_calories = ET.SubElement(day,'todays_calories')
             todays_calories.text = str(self.todays_calories)
-        else:          
-            
+        else:
+            self.todays_calories = self.todays_calories + new_calories
             current_calories.text = str(self.todays_calories)
         new_tree = ElementTree(root)
         new_tree.write(self.path)
@@ -94,7 +94,7 @@ class User(object):
         if (calories < 2000):
            self.weight = self.weight - (calories * .002)
         else:
-           self.weight = self.weight + (calories * .002)
+           self.weight = self.weight + ((calories - 2000) * .002)
 
         tree = ET.parse(self.path)
         root = tree.getroot()
