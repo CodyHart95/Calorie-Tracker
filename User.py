@@ -91,10 +91,7 @@ class User(object):
     #5'9" male who weighs 150 pounds. It will not provide an exact weight but should provide a
     #decent approximation.
     def updateWeight(self,calories):
-        if (calories < 2000):
-           self.weight = self.weight - (calories * .002)
-        else:
-           self.weight = self.weight + ((calories - 2000) * .002)
+           self.weight = self.weight + ((calories - 2000) * .0003)
 
         tree = ET.parse(self.path)
         root = tree.getroot()
