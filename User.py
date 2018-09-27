@@ -1,7 +1,6 @@
 import os.path
 from os import getcwd
 import xml.etree.ElementTree as ET
-import xml.etree
 from xml.etree.ElementTree import ElementTree
 from datetime import date
 
@@ -12,7 +11,10 @@ class User(object):
     name = ''
     todays_calories = 0
     weight = 0
+    height = 68
+    age = 23
     path = ''
+    BMR = 0
     
     def __init__(self,user):
         self.name = user
@@ -41,7 +43,7 @@ class User(object):
                 self.name = input("Please enter your name: ").lower()
                 self.path = os.path.join(getcwd(),('user_files/' + self.name + '.xml'))
                 self.readUserFile()
-                        
+        self.calc_BMR()
     def createUserFile(self):
         
         current_weight = input("Please enter your current weight in pounds as an integer. ")
@@ -91,11 +93,18 @@ class User(object):
     #5'9" male who weighs 150 pounds. It will not provide an exact weight but should provide a
     #decent approximation.
     def updateWeight(self,calories):
-        self.weight = self.weight + ((calories - 2000) * .0003)
+        self.calc_BMR()
+        self.weight = self.weight + ((calories - (self.BMR * 1.375)) * .0003)
         tree = ET.parse(self.path)
         root = tree.getroot()
         current_weight = root.find('weight')
         current_weight = self.weight
         new_tree = ElementTree(root)
         new_tree.write(self.path)
+        
+        
+        
+    #calculates the users BMR. This currently uses hardcoded height and age values specific to me.  
+    def calc_BMR(self):
+        self.BMR = 66 + (6.2 * self.weight) + (12.7 * self.height) - (6.76 * self.age)
         
