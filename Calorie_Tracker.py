@@ -86,7 +86,7 @@ class Calorie_Tracker(object):
             if add_food == 'y':
                 food_cals = input("Please enter the calories for this food: ").lower()
                 self.Foods.saveNewFood(food_name,food_cals)
-                current_user.updateCalories(food_cals)
+                current_user.updateCalories(int(food_cals))
 
     def listFoods(self):
         current_foods = self.Foods.getAllFoods()

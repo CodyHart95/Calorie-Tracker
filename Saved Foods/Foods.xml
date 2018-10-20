@@ -4,5 +4,5 @@
 			<item_name>vanilla coke</item_name>
 			<calories>150</calories>
 		</item>
-	</Foods>
+	<item><item_name>peanutbutter sandwich</item_name><calories>330</calories></item><item><item_name>cocoa puffs</item_name><calories>150</calories></item><item><item_name>milk</item_name><calories>450</calories></item><item><item_name>pepsi</item_name><calories>150</calories></item><item><item_name>dr.pepper</item_name><calories>150</calories></item><item><item_name>oatmeal creme pie</item_name><calories>170</calories></item></Foods>
 </root>
