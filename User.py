@@ -67,7 +67,7 @@ class User(object):
         
         tree.write(self.path)
 
-    #This function serves 2 purposes. I calculates our new calorie total for the day and
+    #This function serves 2 purposes. It calculates our new calorie total for the day and
     #saves that new total to the users xml file. It also calls updateWeight so that a new weight can be calculated.
     def updateCalories(self,new_calories):      
         tree = ET.parse(self.path)
