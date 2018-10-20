@@ -92,7 +92,13 @@ class Calorie_Tracker(object):
         current_foods = self.Foods.getAllFoods()
         if len(current_foods) > 4:
             for i in range(0,len(current_foods),5):
-                print(current_foods[i],"|",current_foods[i+1],"|",current_foods[i+2],"|",current_foods[i+3],"|",current_foods[i+4])
+                if len(current_foods) - i > 5:
+                    print(current_foods[i][0],"|",current_foods[i+1][0],"|",current_foods[i+2][0],"|",current_foods[i+3][0],"|",current_foods[i+4][0],"|")
+                else:
+                    print_string = ""
+                    for j in range(i,len(current_foods)):
+                        print_string += current_foods[j][0] + " | "
+                    print(print_string)
         else:
             food_string = ''
             for food in current_foods:
