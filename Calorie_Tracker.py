@@ -27,7 +27,7 @@ class Calorie_Tracker(object):
                 self.removeCalories(current_user)
             elif(command =="--f"):
                 food = input ("Please enter the name of the food you wish to add to your calorie count: ").lower()
-                self.selectFood(current_user,food)
+                self.addFood(current_user,food)
             elif(command == "--sf"):
                 food = input("Please enter a name for the new food: ").lower()
                 if(self.Foods.foodExists(food)):
@@ -62,26 +62,33 @@ class Calorie_Tracker(object):
                 print("I dont recognize that command. Here is a list of my commands:\n")
                 self.commandHelper()
     
+    #adds calories to the users current total.
     def addCalories(self,current_user):
         cals = input("Please enter the calories you have eaten since your last log in: ")
         current_user.updateCalories(int(cals))
+    #removes calories from the users current total
     def removeCalories(self,current_user):
         cals = int(input("Please enter the calories you would like to remove: "))
         current_user.updateCalories(cals - (cals*2))
+    
+    #prints out a list of commands and their descriptions
     def commandHelper(self):
          print(50 * "-")
          print("--a: Opens a prompt to allow you to add calories to your total for today.\n"
                "--t: Shows your current calorie count for today.\n"
                "--w: Shows your current calculated weight based on your total calorie intake. This is only an estimation and may not reflect your actual weight\n"
                "--r: Opens a prompt to allow you to remove calories from your total for today. \n"
-               "--f: Allows the user to add calories to their count by entering a food name. If the food is not in the system they will be prompted to add it\n"
+               "--f: Allows the user to add calories to their count by entering a food name. Adding a multiplier of the form xN to the end of each food will add the food N many times. If the food is not in the system they will be prompted to add it.\n"
                "--sf: Allows the user to add a new food to the system.\n"
                "--ufc: Allows the user to update the calories of a food that is in the system.\n"
                "--lf: Lists the names of all foods currently in the system.\n"
                "--fc: Prints the calories for the entered food.\n"
+               "--bf: Prompts the user to add a batch of foods seperated by commas. Adding a multiplier of the form xN to the end of each food will add the food N many times. If any of the foods are not in the system they will be prompted to add them.\n"
                )
 
-    def selectFood(self,current_user,food_name):
+    #adds a foods calories to the users current total. If the food doesn't exist in the system
+    #then the user is prompted to add the food.
+    def addFood(self,current_user,food_name):
         multiplier = self.getMultiplier(food_name)
         if multiplier > 0:
            food_name = self.stripMultiplier(food_name)
@@ -96,7 +103,8 @@ class Calorie_Tracker(object):
                 self.Foods.saveNewFood(food_name,food_cals)
                 for i in range(multiplier):
                     current_user.updateCalories(int(food_cals))
-
+    
+    #prints out a list of foods currently in the system.
     def listFoods(self):
         current_foods = self.Foods.getAllFoods()
         if len(current_foods) > 4:
@@ -114,6 +122,8 @@ class Calorie_Tracker(object):
                 food_string += food[0] + "|"
             print(food_string)
     
+    #returns the multiplier attached to the input food string. If there is no multiplier returns 0.
+    #if the user happens to enter a multiplier of 0 we switch this to a 1 since they did infact enter 1 food.
     def getMultiplier(self, food):
         multiplier = 0
         if food[len(food)-2].lower() == 'x' and food[len(food)-1].isdigit():
@@ -123,10 +133,12 @@ class Calorie_Tracker(object):
                 multiplier = int(food[len(food)-1])
         return multiplier
 
+    #returns the food string stripped of its multiplier value and any left over trailing spaces.
     def stripMultiplier(self, food):
         food = food[:-2].strip()
         return food
 
+    #adds all of the foods in the food_list to the users total. If any of those foods dont exist in the system we prompt the user to add them.
     def batchAddFoods(self, current_user, food_list):
         nonexistant_foods = []
         for i in range(len(food_list)):

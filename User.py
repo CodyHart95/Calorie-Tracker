@@ -44,6 +44,8 @@ class User(object):
                 self.path = os.path.join(getcwd(),('user_files/' + self.name + '.xml'))
                 self.readUserFile()
         self.calc_BMR()
+
+    #Creates a new user file
     def createUserFile(self):
         
         current_weight = input("Please enter your current weight in pounds as an integer. ")

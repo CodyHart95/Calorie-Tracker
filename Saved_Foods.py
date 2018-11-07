@@ -3,12 +3,17 @@ from os import getcwd
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import ElementTree
 
+#The purpose of this class is to provide a structure through which we can controll
+#the saving and retrival of foods that users have input into the system.
 class Saved_Foods():
+
+    #path to the foods file that we save all of our foods to
     path = os.path.join(getcwd(),('Saved Foods/Foods.xml'))
     foods = []
     def __init__(self):
         self.foods = self.getAllFoods()
 
+    #saves a food to the food file and adds it to the foods array.
     def saveNewFood(self,food_name, calories):
         tree = ET.parse(self.path)
         root = tree.getroot()
@@ -26,6 +31,7 @@ class Saved_Foods():
 
         self.foods.append([food_name, calories])
 
+    #returns all foods and their calories currently saved to the food file.
     def getAllFoods(self):
         tree = ET.parse(self.path)
         root = tree.getroot()
@@ -43,12 +49,14 @@ class Saved_Foods():
 
         return names_and_cals
 
+    #returns the index of the input food
     def indexOf(self,foods,food_name):
         for i in range(len(foods)):
             if foods[i][0] == food_name:
                 return i
         return -1
 
+    #returns the calories of input food
     def getFoodCalories(self,food_name):
         food_index = self.indexOf(self.foods,food_name)
 
@@ -57,10 +65,12 @@ class Saved_Foods():
         else:
             return ""
 
+    #returns true if the food exists in the current system
     def foodExists(self, food_name):
         food_index = self.indexOf(self.foods,food_name)
         return food_index != -1
 
+    #replaces the input foods calories
     def updateFoodCalories(self, food_name, new_cals):
         tree = ET.parse(self.path)
         root = tree.getroot()
@@ -73,8 +83,3 @@ class Saved_Foods():
 
         food_index = self.indexOf(self.foods,food_name)
         self.foods[food_index][1] = new_cals
-
-    def batchAddFood(self, foods_to_add):
-        for food in foods_to_add:
-            if food not in self.foods:
-                self.foods.append(food)
