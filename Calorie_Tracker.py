@@ -52,6 +52,10 @@ class Calorie_Tracker(object):
                     print("That food does not exist in the system.")
                 else:
                     print(cals)
+            elif(command == "--bf"):
+                foods = input("Please enter the list of foods you would like to add separated by commas: ")
+                split_foods = foods.split(",")
+                self.batchAddFoods(current_user,split_foods)
             elif(command == "--help"):
                 self.commandHelper()
             else:
@@ -78,15 +82,20 @@ class Calorie_Tracker(object):
                )
 
     def selectFood(self,current_user,food_name):
+        multiplier = self.getMultiplier(food_name)
+        if multiplier > 0:
+           food_name = self.stripMultiplier(food_name)
         if(self.Foods.foodExists(food_name)):
             calories = self.Foods.getFoodCalories(food_name)
-            current_user.updateCalories(int(calories))
+            for i in range(multiplier):
+                current_user.updateCalories(int(calories))
         else:
             add_food = input("That food does not exist in the system. Would you like to add it? (Y/N): ").lower()
             if add_food == 'y':
                 food_cals = input("Please enter the calories for this food: ").lower()
                 self.Foods.saveNewFood(food_name,food_cals)
-                current_user.updateCalories(int(food_cals))
+                for i in range(multiplier):
+                    current_user.updateCalories(int(food_cals))
 
     def listFoods(self):
         current_foods = self.Foods.getAllFoods()
@@ -104,8 +113,50 @@ class Calorie_Tracker(object):
             for food in current_foods:
                 food_string += food[0] + "|"
             print(food_string)
-            
+    
+    def getMultiplier(self, food):
+        multiplier = 0
+        if food[len(food)-2].lower() == 'x' and food[len(food)-1].isdigit():
+            if food[len(food)-1] == 0:
+                multiplier = 1
+            else:
+                multiplier = int(food[len(food)-1])
+        return multiplier
+
+    def stripMultiplier(self, food):
+        food = food[:-2].strip()
+        return food
+
+    def batchAddFoods(self, current_user, food_list):
+        nonexistant_foods = []
+        for i in range(len(food_list)):
+            multiplier = self.getMultiplier(food_list[i])
+            if multiplier > 0:
+                for i in range(multiplier - 1):
+                    food_list.append(self.stripMultiplier(food_list[i]))
+                food_list[i] = self.stripMultiplier(food_list[i])
+
+            if not self.Foods.foodExists(food_list[i]):
+                nonexistant_foods.append(food_list[i])
+
+        if len(nonexistant_foods) > 0:
+            add_food = input("These foods dont exist in the system ",nonexistant_foods," would you like to add them? (Y/N): ").lower()
+            if add_food == 'y':
+                for food in nonexistant_foods:
+                    cals = input("Please enter the calories for ",food,": ")
+                    self.Foods.saveNewFood(food, cals)
+                    #self.current_user.updateCalories)(int(cals))
+                for food in food_list:
+                    calories = self.Foods.getFoodCalories(food)
+                    current_user.updateCalories(int(calories))
+        else:
+              for food in food_list:
+                    calories = self.Foods.getFoodCalories(food)
+                    current_user.updateCalories(int(calories))
+      
+
 if __name__ == "__main__":
     
     user = input("Please enter your name: ").lower()
-    Calorie_Tracker(user)
+    CT = Calorie_Tracker(user)
+    print(CT.getMultiplier("Bla bla blax2"))

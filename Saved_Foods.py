@@ -73,3 +73,8 @@ class Saved_Foods():
 
         food_index = self.indexOf(self.foods,food_name)
         self.foods[food_index][1] = new_cals
+
+    def batchAddFood(self, foods_to_add):
+        for food in foods_to_add:
+            if food not in self.foods:
+                self.foods.append(food)
