@@ -94,14 +94,20 @@ class Calorie_Tracker(object):
            food_name = self.stripMultiplier(food_name)
         if(self.Foods.foodExists(food_name)):
             calories = self.Foods.getFoodCalories(food_name)
-            for i in range(multiplier):
+            if multiplier > 0:
+                    for i in range(multiplier):
+                        current_user.updateCalories(int(calories))
+            else:
                 current_user.updateCalories(int(calories))
         else:
             add_food = input("That food does not exist in the system. Would you like to add it? (Y/N): ").lower()
             if add_food == 'y':
                 food_cals = input("Please enter the calories for this food: ").lower()
                 self.Foods.saveNewFood(food_name,food_cals)
-                for i in range(multiplier):
+                if multiplier > 0:
+                    for i in range(multiplier):
+                        current_user.updateCalories(int(food_cals))
+                else:
                     current_user.updateCalories(int(food_cals))
     
     #prints out a list of foods currently in the system.
