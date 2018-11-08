@@ -1,5 +1,6 @@
 from User import User
 from Saved_Foods import Saved_Foods
+import os
 #The purpose of this class is to create an interface for the user to
 #interact with the program. In addition it allows for interaction with the User class.
 class Calorie_Tracker(object):
@@ -16,6 +17,7 @@ class Calorie_Tracker(object):
         while True:                
             print(50 * "-")
             command = input("\nPlease enter a command: ").lower()
+            os.system('cls')
             print()
             if(command == "--a"):
                 self.addCalories(current_user)
@@ -61,7 +63,7 @@ class Calorie_Tracker(object):
             else:
                 print("I dont recognize that command. Here is a list of my commands:\n")
                 self.commandHelper()
-    
+
     #adds calories to the users current total.
     def addCalories(self,current_user):
         cals = input("Please enter the calories you have eaten since your last log in: ")
